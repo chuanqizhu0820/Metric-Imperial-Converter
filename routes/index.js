@@ -42,24 +42,33 @@ router.get('/', function(req, res, next) {
 
 router.post('/api/convert', (req, res)=>{
   let value = req.body.numUnit;
-  let numberStr = value.match(/[0-9./]/g).join('');
+  let numberStr = value.match(/[0-9./]/g);
   let number = null;
-  if(/[/]/.test(numberStr)){
-    let numArr = numberStr.split('/');
-    number = parseInt(numArr[0])/parseInt(numArr[1]);
+  if(numberStr===null){
+    number = 1;
+  }
+  else if(/[/]/.test(numberStr.join(''))){
+    let numArr = numberStr.join('').split('/');
+    number = parseFloat(numArr[0])/parseFloat(numArr[1]);
   }
   else{
-    number = parseFloat(numberStr);
+    number = parseFloat(numberStr.join(''));
   }
   let unit = value.match(/[a-zA-Z]/g).join('');
-  console.log(unit);
 
   for (const item in metricToImperial){
     if (item===unit){
       const inputUnit = metricToImperial[item].fullName;
-      const covertedValue = number * metricToImperial[item].value;
+      const convertedValue = (number * metricToImperial[item].value).toFixed(4);
       const convertedUnit = metricToImperial[item].unit;
-      console.log(`${number} ${inputUnit}s converts to ${covertedValue} ${convertedUnit}s`);
+      const returnObj = {
+        "initNum":number,
+        "initUnit":inputUnit,
+        "returnNum": convertedValue,
+        "returnUnit": convertedUnit,
+        "string":`${number} ${inputUnit}s converts to ${convertedValue} ${convertedUnit}s`
+      }
+      res.json(returnObj);
     }
   }
 
