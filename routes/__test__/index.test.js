@@ -1,4 +1,4 @@
-const converter = require('./__mock__/index')
+const converter = require('../__mock__/index')
 
 test('should correctly read a whole number input', () => {
   let valueUnit = '999kg';

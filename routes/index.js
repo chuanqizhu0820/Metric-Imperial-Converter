@@ -59,25 +59,24 @@ router.post('/api/convert', (req, res)=>{
   }
   let unit = value.match(/[a-zA-Z]/g).join('');
 
-  for (const item in metricToImperial){
-    if (item===unit){
-      const inputUnit = metricToImperial[item].fullName;
-      const convertedValue = (number * metricToImperial[item].value).toFixed(4);
-      const convertedUnit = metricToImperial[item].unit;
-      const returnObj = {
-        "initNum":number,
-        "initUnit":inputUnit,
-        "returnNum": convertedValue,
-        "returnUnit": convertedUnit,
-        "string":`${number} ${inputUnit}s converts to ${convertedValue} ${convertedUnit}s`
-      }
-      res.json(returnObj);
-    }
+if (Object.keys(metricToImperial).indexOf(unit)>=0){
+  const inputUnit = metricToImperial[unit].fullName;
+  const convertedValue = (number * metricToImperial[unit].value).toFixed(4);
+  const convertedUnit = metricToImperial[unit].unit;
+  const returnObj = {
+    "initNum":number,
+    "initUnit":inputUnit,
+    "returnNum": convertedValue,
+    "returnUnit": convertedUnit,
+    "string":`${number} ${inputUnit}s converts to ${convertedValue} ${convertedUnit}s`
   }
-
+  res.json(returnObj);
+}else{
   if(Object.keys(metricToImperial).indexOf(unit)<0){
-      res.json({Error: "invalid unit"})
+    res.json({error: "invalid unit"})
   }
+}
 
 })
+
 module.exports = router;
