@@ -1,5 +1,3 @@
-var express = require('express');
-var router = express.Router();
 
 const metricToImperial = 
 {
@@ -35,13 +33,9 @@ const metricToImperial =
   }
 }
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Metric/Imperial Converter' });
-});
+function converter(valueUnit){
 
-router.post('/api/convert', (req, res)=>{
-  let value = req.body.numUnit;
+  let value = valueUnit;
   let numberStr = value.match(/[0-9./]/g);
   let number = null;
   if(numberStr===null){
@@ -50,7 +44,7 @@ router.post('/api/convert', (req, res)=>{
   else if(/[/]/.test(numberStr.join(''))){
     let numArr = numberStr.join('').split('/');
     if(numArr.length>2){
-        res.json({error: "Error of double-fraction"});
+        return "Error of double-fraction"
     }
     number = parseFloat(numArr[0])/parseFloat(numArr[1]);
   }
@@ -64,20 +58,20 @@ router.post('/api/convert', (req, res)=>{
       const inputUnit = metricToImperial[item].fullName;
       const convertedValue = (number * metricToImperial[item].value).toFixed(4);
       const convertedUnit = metricToImperial[item].unit;
-      const returnObj = {
+      return {
         "initNum":number,
         "initUnit":inputUnit,
         "returnNum": convertedValue,
         "returnUnit": convertedUnit,
         "string":`${number} ${inputUnit}s converts to ${convertedValue} ${convertedUnit}s`
       }
-      res.json(returnObj);
     }
   }
 
   if(Object.keys(metricToImperial).indexOf(unit)<0){
-      res.json({Error: "invalid unit"})
+      return "invalid unit"
   }
+  
+}
 
-})
-module.exports = router;
+module.exports = converter;
