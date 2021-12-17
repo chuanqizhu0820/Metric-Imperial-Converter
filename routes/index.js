@@ -7,6 +7,10 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/api/convert', (req, res)=>{
-  console.log(req.body.valueUnit);
+  let value = req.body.numUnit;
+  let number = parseFloat(value.match(/[0-9.]/g).join(''));
+  let unit = value.match(/[a-zA-Z]/g).join('');
+  console.log(number);
+  console.log(unit);
 })
 module.exports = router;
