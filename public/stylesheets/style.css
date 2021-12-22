@@ -24,3 +24,16 @@ button {
 ::placeholder{
   color: rgb(211, 210, 210);
 }
+
+h4{
+  padding-top: 100px;;
+}
+
+p, li {
+  font-size: 15px;
+  color: rgb(59, 58, 58);
+}
+
+li{
+  list-style-type: none;
+}

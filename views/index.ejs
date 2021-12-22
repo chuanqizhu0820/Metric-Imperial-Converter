@@ -8,8 +8,16 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
     <form action="/api/convert" method="POST">
-      <input type="text" name="numUnit">
+      <input type="text" name="numUnit" placeholder="100km">
       <button type=submit>convert!</button>
     </form>
+    <h4>Some examples of the http request</h4>
+    <p>You can try by appending the following path to the root url Or putting the value in the end in the input box</p>
+    <ul>
+      <li>/api/convert?input=4gal</li>
+      <li>/api/convert?input=1/2km</li>
+      <li>/api/convert?input=5.4/3lbs</li>
+      <li>/api/convert?input=kg</li>
+    </ul>
   </body>
 </html>
